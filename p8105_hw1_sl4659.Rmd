@@ -9,22 +9,45 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Problem 1
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r dataframe}
+library(tidyverse)
+test_df = tibble(
+  # a random sample of size 8 from a standard Normal distribution
+  vec_nor = rnorm(8),
+  # logical vector indicating whether elements of the sample are greater than 0
+  vec_log = vec_nor > 0,
+  # character vector of length 8
+  vec_char = c("My","name","is","Shenglin","Liu","I","Love","R"),
+  # factor vector of length 8, with 3 different levels
+  vec_fac = factor(c("high","low","low","medium","high","medium","low","low"))
+)
+# take the mean of each variable
+mean(pull(test_df, vec_nor))
+mean(pull(test_df, vec_log))
+mean(pull(test_df, vec_char))
+mean(pull(test_df, vec_fac))
+```
+It works for vec_nor and vec_log and doesn't work for vec_char and vec_fac.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r numeric, message = FALSE, warning = FALSE, results = "hide"}
+# as.numeric function
+as.numeric(pull(test_df, vec_nor))
+as.numeric(pull(test_df, vec_log))
+as.numeric(pull(test_df, vec_char))
+as.numeric(pull(test_df, vec_fac))
+```
+All variables can be converted to numeric except for vec_char.
+It helps explaining why mean() doesn't work for vec_char. However, mean() doesn't work for vec_fac even if it can be converted to numeric.
 
-```{r cars}
-summary(cars)
+```{r second}
+# convert logical to numeric, and multiply the random sample by the result
+as.numeric(pull(test_df, vec_log))*pull(test_df, vec_nor)
+# convert logical to factor, and multiply the random sample by the result
+as.factor(pull(test_df, vec_log))*pull(test_df, vec_nor)
+# convert logical to factor, and then convert the result to numeric, and multiply the random sample by the result
+as.numeric(as.factor(pull(test_df, vec_log)))*pull(test_df, vec_nor)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
