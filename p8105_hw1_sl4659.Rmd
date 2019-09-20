@@ -49,5 +49,21 @@ as.factor(pull(test_df, vec_log))*pull(test_df, vec_nor)
 # convert logical to factor, and then convert the result to numeric, and multiply the random sample by the result
 as.numeric(as.factor(pull(test_df, vec_log)))*pull(test_df, vec_nor)
 ```
+## Problem 2
+
+```{r dataframe2}
+test2_df = tibble(
+  x = rnorm(500),
+  y = rnorm(500),
+  vec_log2 = x+y > 1,
+  vec_num2 = as.numeric(vec_log2),
+  vec_fac2 = as.factor(vec_log2)
+)
+```
+The size of the dataset is `r nrow(test2_df)*ncol(test2_df)`.
+The mean of x is `r mean(pull(test2_df, x))`.
+The median of x is `r median(pull(test2_df, x))`.
+The standard deviation of x is `r sd(pull(test2_df,x))`.
+The proportion of cases for x + y > 1 is `r sum(pull(test2_df,vec_log2), na.rm = TRUE)/500`.
 
 
