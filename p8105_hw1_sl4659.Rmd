@@ -66,4 +66,17 @@ The median of x is `r median(pull(test2_df, x))`.
 The standard deviation of x is `r sd(pull(test2_df,x))`.
 The proportion of cases for x + y > 1 is `r sum(pull(test2_df,vec_log2), na.rm = TRUE)/500`.
 
+```{r}
+# first scatterplot
+ggplot(test2_df, aes(x = x, y = y, colour = vec_log2)) + geom_point()
+# export to project directory using ggsave
+ggsave("y_vs_x.pdf", height = 4, width = 6)
+# second scatterplot
+ggplot(test2_df, aes(x = x, y = y, colour = vec_num2)) + geom_point()
+# third scatterplot
+ggplot(test2_df, aes(x = x, y = y, colour = vec_fac2)) + geom_point()
+```
+
+Subgroups can be easily distinguished and the color scales are therefore clear.
+
 
